@@ -8,7 +8,7 @@ router.post("/", async (req: Request, res: Response) => {
     const { title, author, pages } = req.body;
     if (!title || !author || !pages) {
       return res.status(400).json({
-        message: "Please send all the fields: Title, Author, Pages",
+        message: "Please send all the fields: title, author, pages",
       });
     }
     const book = await Book.create({ title, author, pages });
@@ -18,7 +18,7 @@ router.post("/", async (req: Request, res: Response) => {
       console.error(error.message);
       return res.status(500).json({ message: error.message });
     }
-    return res.status(500).json({ message: "Unknown server error" });
+    return res.status(500).json({ message: "unknown server error" });
   }
 });
 
@@ -36,7 +36,7 @@ router.get("/", async (_req: Request, res: Response) => {
       console.error(error.message);
       return res.status(500).json({ message: error.message });
     }
-    return res.status(500).json({ message: "Unknown server error" });
+    return res.status(500).json({ message: "unknown server error" });
   }
 });
 
@@ -52,7 +52,7 @@ router.get("/:id", async (req: Request, res: Response) =>{
       console.error(error.message);
       return res.status(500).json({ message: error.message });
     }
-    return res.status(500).json({ message: "Unknown server error" });
+    return res.status(500).json({ message: "unknown server error" });
   }
 });
 
@@ -62,11 +62,11 @@ router.put("/:id", async(req: Request, res: Response) => {
     const id = req.params.id as string;
     const {title, author, pages} = req.body;
     if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(400).json({ message: "Invalid book ID" });
+      return res.status(400).json({ message: "invalid book id" });
     }
     if(!title || !author || !pages){
       return res.status(400).json({
-        message: "Please provide - title, author, pages"
+        message: "please provide - title, author, pages"
       });
     }
     const updatedBook = await Book.findByIdAndUpdate(
@@ -93,11 +93,11 @@ router.delete("/:id", async(req: Request, res: Response) =>{
     const result = await Book.findByIdAndDelete(id);
     if(!result){
       return res.status(404).send({
-        message: "Book Not Found"
+        message: "book not found"
       });
     }
     res.status(200).send({
-      Message: "The Book is deleted successfully"
+      Message: "The book is deleted successfully"
     });
   }
   catch(error: unknown){
@@ -105,7 +105,7 @@ router.delete("/:id", async(req: Request, res: Response) =>{
       console.error(error.message);
       return res.status(500).json({ message: error.message });
     }
-    return res.status(500).json({ message: "Unknown server error" });
+    return res.status(500).json({ message: "unknown server error" });
   }
 
 });
