@@ -3,6 +3,7 @@ dotenv.config();
 
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import bookRoute from "./src/routes/bookRoute";
 const app = express();
 const PORT: number = Number(process.env.PORT) || 3000;
@@ -13,7 +14,12 @@ if (!MONGO_URI) {
 }
 
 app.use('/books', bookRoute);
-
+app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.get("/", (_req: Request, res: Response) => {
   return res.send("Hello");
 });
