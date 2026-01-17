@@ -13,13 +13,15 @@ if (!MONGO_URI) {
   throw new Error("MongoDB URI is missing in environment variables");
 }
 
-app.use('/books', bookRoute);
 app.use(cors({
   origin: "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.use('/books', bookRoute);
+
 app.get("/", (_req: Request, res: Response) => {
   return res.send("Hello");
 });

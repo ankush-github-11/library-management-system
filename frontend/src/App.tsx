@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import CreateBook from './pages/createBook'
+import CreateBook from './pages/CreateBook'
 import ShowBook from './pages/ShowBook'
 import EditBook from './pages/EditBook'
 import DeleteBook from './pages/DeleteBook'
 const App = () => {
   return (
-    <div className='bg-red-900 text-white'>
+    <div className=''>
       <Routes>
         <Route path="/" element={ <Home /> }></Route>
         <Route path="/books/create" element={ <CreateBook /> }></Route>
