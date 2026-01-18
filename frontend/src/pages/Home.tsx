@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
-interface Book{
+import { FaList } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+interface Book {
   _id: string;
   title: string;
   author: string;
   pages: number;
 }
-const Home : React.FC = () => {
+const Home: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -35,27 +38,62 @@ const Home : React.FC = () => {
 
       {!loading && books.length > 0 && (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse bg-transparent rounded-lg shadow overflow-hidden">
-            <thead className="bg-gray-500/30">
-              <tr>
-                <th className="border-2 border-gray-500/50 px-4 py-2 text-left">No.</th>
-                <th className="border-2 border-gray-500/50 px-4 py-2 text-left">Title</th>
-                <th className="border-2 border-gray-500/50 px-4 py-2 text-left">Author</th>
-                <th className="border-2 border-gray-500/50 px-4 py-2 text-left">Pages</th>
-              </tr>
-            </thead>
+          <div className="w-full rounded-lg shadow overflow-hidden border-2 border-gray-500/50">
 
-            <tbody>
+            <div className="grid grid-cols-[0.5fr_3fr_2fr_1fr_1.5fr] bg-gray-500/30">
+              <div className="px-4 py-2 border-r-2 border-b-2 border-gray-500/50 font-semibold">
+                No.
+              </div>
+              <div className="px-4 py-2 border-r-2 border-b-2 border-gray-500/50 font-semibold">
+                Title
+              </div>
+              <div className="px-4 py-2 border-r-2 border-b-2 border-gray-500/50 font-semibold">
+                Author
+              </div>
+              <div className="px-4 py-2 border-r-2 border-b-2 border-gray-500/50 font-semibold">
+                Pages
+              </div>
+              <div className="px-4 py-2 font-semibold border-b-2 border-gray-500/50 flex justify-center">Actions</div>
+            </div>
+
+            <div className="divide-y divide-gray-500/50">
               {books.map((book, index) => (
-                <tr key={book._id} className="hover:bg-gray-500/5 transition">
-                  <td className="border-2 border-gray-500/50  px-4 py-2">{index + 1}</td>
-                  <td className="border-2 border-gray-500/50 px-4 py-2 font-medium">{book.title}</td>
-                  <td className="border-2 border-gray-500/50 px-4 py-2">{book.author}</td>
-                  <td className="border-2 border-gray-500/50 px-4 py-2">{book.pages}</td>
-                </tr>
+                <div
+                  key={book._id}
+                  className="grid grid-cols-[0.5fr_3fr_2fr_1fr_1.5fr] items-center hover:bg-gray-500/5 transition"
+                >
+                  <div className="px-4 py-2 h-full flex items-center border-r-2 border-gray-500/50">
+                    {index + 1}
+                  </div>
+
+                  <div className="px-4 py-2 h-full flex items-center border-r-2 border-gray-500/50 font-medium">
+                    {book.title}
+                  </div>
+
+                  <div className="px-4 py-2 h-full flex items-center border-r-2 border-gray-500/50">
+                    {book.author}
+                  </div>
+
+                  <div className="px-4 py-2 h-full flex items-center border-r-2 border-gray-500/50">
+                    {book.pages}
+                  </div>
+
+                  <div className="px-4 py-2 h-full flex items-center gap-3 justify-center">
+                    <Link to={`/books/details/${book._id}`} className="hover:border-2 hover:border-gray-500/50 h-10 w-10 bg-gray-500/30 rounded-md flex justify-center items-center">
+                      <FaList size={18} className="text-cyan-500" />
+                    </Link>
+                    <Link to={`/books/edit/${book._id}`} className="hover:border-2 hover:border-gray-500/50 h-10 w-10 bg-gray-500/30 rounded-md flex justify-center items-center">
+                      <FaEdit size={18} className="text-yellow-500 ml-1"/>
+                    </Link>
+                    <Link to={`/books/delete/${book._id}`} className="hover:border-2 hover:border-gray-500/50 h-10 w-10 bg-gray-500/30 rounded-md flex justify-center items-center">
+                      <MdDelete size={20} className="text-pink-500"/>
+                    </Link>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+
+          </div>
         </div>
       )}
 
