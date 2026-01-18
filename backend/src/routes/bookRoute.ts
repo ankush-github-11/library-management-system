@@ -2,6 +2,25 @@ import express, { Request, Response }  from "express";
 const router = express.Router();
 import Book from "../models/bookModel";
 import mongoose from "mongoose";
+
+// Getting all the books
+router.get("/", async (_req: Request, res: Response) => {
+  try {
+    const books = await Book.find({});
+    res.status(200).send({
+      count: books.length,
+      data: books
+    });
+  }
+  catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      return res.status(500).json({ message: error.message });
+    }
+    return res.status(500).json({ message: "unknown server error" });
+  }
+});
+
 // Creating a book
 router.post("/", async (req: Request, res: Response) => {
   try {
@@ -14,24 +33,6 @@ router.post("/", async (req: Request, res: Response) => {
     const book = await Book.create({ title, author, pages });
     return res.status(201).json(book);
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error(error.message);
-      return res.status(500).json({ message: error.message });
-    }
-    return res.status(500).json({ message: "unknown server error" });
-  }
-});
-
-// Getting all the books
-router.get("/", async (_req: Request, res: Response) => {
-  try {
-    const books = await Book.find({});
-    res.status(200).send({
-      count: books.length,
-      data: books
-    });
-  }
-  catch (error: unknown) {
     if (error instanceof Error) {
       console.error(error.message);
       return res.status(500).json({ message: error.message });
