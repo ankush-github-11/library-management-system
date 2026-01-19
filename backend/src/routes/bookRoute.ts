@@ -87,7 +87,7 @@ router.put("/:id", async(req: Request, res: Response) => {
   }
 });
 
-//Deleting a book using ID
+// Deleting a book using ID
 router.delete("/:id", async(req: Request, res: Response) =>{
   try{
     const id = req.params.id as string;
