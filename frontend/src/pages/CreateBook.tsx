@@ -57,7 +57,7 @@ const CreateBook = () => {
 
   return (
     <div>
-      {popup && <div>✅ Book Created Successfully</div>}
+      {popup && <div>Book Created Successfully</div>}
 
       <h2>Create a Book</h2>
 
@@ -65,7 +65,7 @@ const CreateBook = () => {
         type="text"
         placeholder="Enter the title"
         value={book.title}
-        onChange={(e) =>
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setBook({ ...book, title: e.target.value })
         }
       />
@@ -74,7 +74,7 @@ const CreateBook = () => {
         type="text"
         placeholder="Enter the author"
         value={book.author}
-        onChange={(e) =>
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setBook({ ...book, author: e.target.value })
         }
       />
@@ -83,7 +83,7 @@ const CreateBook = () => {
         type="text"
         placeholder="Enter the number of pages"
         value={book.pages}
-        onChange={(e) =>
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setBook({ ...book, pages: e.target.value })
         }
       />
