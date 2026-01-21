@@ -66,11 +66,11 @@ const Home: React.FC = () => {
                 </div>
               </div>
 
-              <div className="divide-y divide-gray-500/50">
+              <div className="h-fit divide-y divide-gray-500/50">
                 {books.map((book, index) => (
                   <div
                     key={book._id}
-                    className="grid grid-cols-[0.5fr_3fr_2fr_1fr_1.5fr] items-center hover:bg-gray-500/5 transition"
+                    className="h-fit grid grid-cols-[0.5fr_3fr_2fr_1fr_1.5fr] items-center hover:bg-gray-500/5 transition"
                   >
                     <div className="px-4 py-2 h-full flex items-center border-r-2 border-gray-500/50">
                       {index + 1}

@@ -29,7 +29,7 @@ const ShowBook = () => {
   }, [id]);
   return (
     <div className="min-h-screen h-fit p-8">
-      <div className="w-20 rounded-lg">
+      <div className="w-fit">
         <BackButton />
       </div>
       <h1 className="text-2xl font-bold mb-5 mt-10">Book Detail</h1>
