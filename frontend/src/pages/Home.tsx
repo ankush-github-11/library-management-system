@@ -5,6 +5,8 @@ import Spinner from "../components/Spinner";
 import { FaList } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { socket } from "../socket";
+
 interface Book {
   _id: string;
   title: string;
@@ -25,6 +27,30 @@ const Home: React.FC = () => {
         console.log(error);
         setLoading(false);
       });
+  }, []);
+  useEffect(() => {
+    const handleBookAdded = (newBook: Book) => {
+      setBooks((prev) => [...prev, newBook]);
+    };
+
+    const handleBookEdited = (updatedBook: Book) => {
+      setBooks((prev) =>
+        prev.map((book) => (book._id === updatedBook._id ? updatedBook : book)),
+      );
+    };
+    
+    const handleBookDeleted = (id: string) => {
+      setBooks((prev) => prev.filter((book) => book._id !== id));
+    };
+
+    socket.on("book-added", handleBookAdded);
+    socket.on("book-edited", handleBookEdited);
+    socket.on("book-deleted", handleBookDeleted);
+    return () => {
+      socket.off("book-added", handleBookAdded);
+      socket.off("book-edited", handleBookEdited);
+      socket.off("book-deleted", handleBookDeleted);
+    };
   }, []);
   return (
     <div className="px-8 py-8 h-fit w-full">

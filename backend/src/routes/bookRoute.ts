@@ -31,6 +31,8 @@ router.post("/", async (req: Request, res: Response) => {
       });
     }
     const book = await Book.create({ title, author, pages });
+    const io = req.app.get("io");
+    io.emit("book-added", book);
     return res.status(201).json(book);
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -76,6 +78,8 @@ router.put("/:id", async(req: Request, res: Response) => {
       {new: true, runValidators: true}
     )
     if(!updatedBook) return res.status(404).send({message: "Book Not Found"});
+    const io = req.app.get("io");
+    io.emit("book-edited", updatedBook);
     res.status(200).send(updatedBook);
   }
   catch(error: unknown){
@@ -97,6 +101,8 @@ router.delete("/:id", async(req: Request, res: Response) =>{
         message: "book not found"
       });
     }
+    const io = req.app.get("io");
+    io.emit("book-deleted", id);
     res.status(200).send({
       Message: "The book is deleted successfully"
     });
