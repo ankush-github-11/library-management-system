@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
+import { useSnackbar } from "notistack";
 
 interface Book {
   title: string;
@@ -11,6 +12,7 @@ interface Book {
 }
 const EditBook = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [book, setBook] = useState<Book>({
     title: "",
     author: "",
@@ -44,10 +46,11 @@ const EditBook = () => {
     axios
       .put(`http://localhost:3000/books/${id}`, book)
       .then(() => {
+        enqueueSnackbar("Book is edited successfully", {variant: "success"});
         navigate("/", { replace: true });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        enqueueSnackbar("Something went wrong", {variant: "error"});
         setSubmitting(false);
       });
   };
@@ -57,12 +60,15 @@ const EditBook = () => {
         <BackButton />
       </div>
       <h1>Edit the Book</h1>
+      {!loading && !book && (
+        <div>Book not found</div>
+      )}
       {loading && (
         <div>
           <Spinner />
         </div>
       )}
-      {!loading && (
+      {!loading && book && (
         <div className="flex flex-col">
           <div>Book Title</div>
           <input

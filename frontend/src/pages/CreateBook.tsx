@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
+import { useSnackbar } from "notistack";
 
 interface Book {
   title: string;
@@ -16,19 +17,16 @@ const CreateBook = () => {
     pages: "",
   });
   const [loading, setLoading] = useState(false);
-  const [popup, setPopup] = useState(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleChange = async () => {
     if (!book.title || !book.author || !book.pages) {
-      alert("All fields are required");
+      enqueueSnackbar("All fields are required", {variant: "warning"});
       return;
     }
-
     if (isNaN(Number(book.pages))) {
-      alert("Pages must be a number");
+      enqueueSnackbar("Pages must be a number", {variant: "warning"});
       return;
     }
-
     try {
       setLoading(true);
       await axios.post("http://localhost:3000/books/", {
@@ -40,19 +38,18 @@ const CreateBook = () => {
         author: "",
         pages: "",
       });
-      setPopup(true);
-      setTimeout(() => setPopup(false), 2000);
-    } catch (error) {
+      enqueueSnackbar("Book is created successfully", {variant: "success"});
+      setLoading(false);
+    }
+    catch (error) {
       console.log(error);
-      alert("Something went wrong");
-    } finally {
+      enqueueSnackbar("Something went wrong", {variant: "error"});
       setLoading(false);
     }
   };
 
   return (
     <div className="p-8">
-      {popup && <div>Book Created Successfully</div>}
       <div className="w-fit">
         <BackButton />
       </div>

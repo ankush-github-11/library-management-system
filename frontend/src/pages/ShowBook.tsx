@@ -3,6 +3,8 @@ import BackButton from "../components/BackButton";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
+
+
 interface Book {
   _id: string;
   title: string;
@@ -33,6 +35,9 @@ const ShowBook = () => {
         <BackButton />
       </div>
       <h1 className="text-2xl font-bold mb-5 mt-10">Book Detail</h1>
+      {!loading && !book && (
+        <div>Book not found</div>
+      )}
       {loading && (
         <div className="flex justify-center items-center h-fit w-full">
           <Spinner />
