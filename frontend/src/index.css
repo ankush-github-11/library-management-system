@@ -1,17 +1,64 @@
 @import "tailwindcss";
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  box-sizing: border-box;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-}
+  /* =========================
+     Base Dark Theme
+     ========================= */
+  --bg-main: #262626;          /* app background */
+  --bg-secondary: #111111;     /* sections */
+  --bg-card: #161616;          /* cards / modals */
+  --bg-elevated: #1c1c1c;      /* hover / dropdown */
 
+  /* =========================
+     Text Colors
+     ========================= */
+  --text-primary: #f5f5f5;     /* main text */
+  --text-secondary: #b3b3b3;   /* muted text */
+  --text-tertiary: #8a8a8a;    /* placeholders */
+  --text-inverted: #0b0b0b;
 
+  /* =========================
+     Gold Accent System
+     ========================= */
+  --gold-primary: #ffb700;     /* classic luxury gold */
+  --gold-soft: #ffc32a;        /* hover */
+  --gold-muted: #ffd56c;       /* borders */
+  --gold-glow: #ffd466d7;
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  /* =========================
+     Borders & Dividers
+     ========================= */
+  --border-default: #262626;
+  --border-muted: #1f1f1f;
+  --border-gold: #ffcc00;
+
+  /* =========================
+     Status Colors
+     ========================= */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #38bdf8;
+
+  /* =========================
+     Shadows
+     ========================= */
+  --shadow-soft: 0 4px 40px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --shadow-gold: 0 0 25px rgba(212, 175, 55, 0.25);
+
+  /* =========================
+     Radius & Spacing
+     ========================= */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* =========================
+     Transitions
+     ========================= */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
 }

@@ -5,7 +5,6 @@ import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
 
-
 const DeleteBook = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,20 +25,27 @@ const DeleteBook = () => {
   };
 
   return (
-    <div className="h-screen overflow-hidden p-8">
-      <div className="w-fit">
-        <BackButton />
-      </div>
-      <h1>Delete the book</h1>
-      <div className="w-full h-full flex justify-center items-center flex-col">
-        <div className="w-fit">Do you want to delete the book?</div>
-        <button
-          className="mb-25 w-fit px-4 py-2 bg-red-500 rounded-full cursor-pointer"
-          onClick={handleDelete}
-          disabled={loading}
-        >
-          {loading ? <Spinner /> : "Yes, delete"}
-        </button>
+    <div className="bg-(--bg-main) min-h-screen p-6 sm:p-10 text-(--text-primary) flex items-center">
+      <div className="max-w-md w-full mx-auto">
+        <div className="mb-4">
+          <BackButton />
+        </div>
+
+        <div className="bg-(--bg-card) border border-(--border-default) rounded-2xl p-6 sm:p-8 shadow-(--shadow-medium)">
+          <h1 className="text-2xl font-semibold mb-3">Delete the book</h1>
+          <p className="text-sm text-(--text-secondary) mb-6">Are you sure you want to permanently delete this book? This action cannot be undone.</p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              className={`inline-flex items-center justify-center px-6 py-2 rounded-full font-semibold shadow-(--shadow-soft) border border-(--border-default) transition-(--transition-normal) ${loading ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-(--error) ext-white cursor-pointer`}
+              onClick={handleDelete}
+              disabled={loading}
+              aria-label="confirm-delete"
+            >
+              {loading ? <Spinner /> : "Yes, delete"}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

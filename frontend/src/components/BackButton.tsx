@@ -1,11 +1,26 @@
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
+
 const BackButton = () => {
   return (
-    <Link to={`/`} className="cursor-pointer w-20">
-      <IoIosArrowRoundBack size={40} className="w-20 bg-gray-500/40 rounded-lg cursor-pointer hover:bg-purple-600" />
+    <Link
+      to="/"
+      className="
+        inline-flex items-center justify-center
+        h-10 w-12
+        rounded-xl
+        bg-(--bg-elevated)
+        border-2 border-(--border-muted)
+        text-(--text-primary)
+        transition-all duration-200
+        hover:bg-(--accent-soft)
+        hover:text-(--gold-primary)
+        active:scale-95
+      "
+    >
+      <IoIosArrowRoundBack size={28} />
     </Link>
-  )
-}
+  );
+};
 
-export default BackButton
+export default BackButton;

@@ -30,52 +30,57 @@ const ShowBook = () => {
       });
   }, [id]);
   return (
-    <div className="min-h-screen h-fit p-8">
-      <div className="w-fit">
-        <BackButton />
+    <div className="bg-(--bg-main) min-h-screen p-6 sm:p-10 text-(--text-primary)">
+      <div className="max-w-3xl mx-auto w-full">
+        <div className="mb-4">
+          <BackButton />
+        </div>
+
+        <h1 className="text-2xl sm:text-3xl font-semibold mb-6">Book Detail</h1>
+
+        {(!loading && !book) && (
+          <div className="bg-(--bg-card) border border-(--border-default) rounded-xl p-6 text-(--text-secondary)">
+            Book not found
+          </div>
+        )}
+
+        {loading && (
+          <div className="flex justify-center items-center h-40 w-full">
+            <Spinner />
+          </div>
+        )}
+
+        {book && (
+          <div className="bg-(--bg-card) border border-(--border-default) rounded-2xl p-6 sm:p-8 shadow-(--shadow-medium)">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="space-y-1">
+                <div className="text-sm text-(--text-secondary)">Title</div>
+                <div className="text-lg font-medium text-(--text-primary)">{book.title}</div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-sm text-(--text-secondary)">Author</div>
+                <div className="text-lg font-medium text-(--text-primary)">{book.author}</div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-sm text-(--text-secondary)">Pages</div>
+                <div className="text-lg font-medium text-(--text-primary)">{book.pages}</div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-sm text-(--text-secondary)">Created At</div>
+                <div className="text-sm text-(--text-primary)">{new Date(book.createdAt).toLocaleString()}</div>
+              </div>
+
+              <div className="space-y-1 sm:col-span-2">
+                <div className="text-sm text-(--text-secondary)">Updated At</div>
+                <div className="text-sm text-(--text-primary)">{new Date(book.updatedAt).toLocaleString()}</div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      <h1 className="text-2xl font-bold mb-5 mt-10">Book Detail</h1>
-      {!loading && !book && (
-        <div>Book not found</div>
-      )}
-      {loading && (
-        <div className="flex justify-center items-center h-fit w-full">
-          <Spinner />
-        </div>
-      )}
-      {book && (
-        <div>
-          <div className="flex gap-x-2">
-            <div>Title</div>
-            <div>-</div>
-            <div>{book.title}</div>
-          </div>
-
-          <div className="flex gap-x-2">
-            <div>Author</div>
-            <div>-</div>
-            <div>{book.author}</div>
-          </div>
-
-          <div className="flex gap-x-2">
-            <div>Pages</div>
-            <div>-</div>
-            <div>{book.pages}</div>
-          </div>
-
-          <div className="flex gap-x-2">
-            <div>Created At</div>
-            <div>-</div>
-            <div>{new Date(book.createdAt).toLocaleString()}</div>
-          </div>
-
-          <div className="flex gap-x-2">
-            <div>Updated At</div>
-            <div>-</div>
-            <div>{new Date(book.updatedAt).toLocaleString()}</div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
