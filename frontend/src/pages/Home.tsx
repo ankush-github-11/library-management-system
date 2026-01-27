@@ -113,12 +113,13 @@ const Home: React.FC = () => {
               placeholder:text-(--text-muted)
               focus:outline-2
               focus:outline-(--border-gold)/80
+              select-none
               "
             />
           </div>
           <Link
             to={"/books/create"}
-            className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-(--gold-primary) text-(--text-inverted) font-semibold shadow-(--shadow-gold) border border-(--border-gold) hover:brightness-95 transition-(--transition-normal)"
+            className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-(--gold-primary) text-(--text-inverted) font-semibold shadow-(--shadow-gold) border border-(--border-gold) hover:brightness-95 transition-(--transition-normal) select-none"
           >
             <span className="text-sm sm:text-base">+ Create a Book</span>
           </Link>
