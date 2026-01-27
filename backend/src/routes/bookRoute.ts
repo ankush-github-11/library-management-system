@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 // Getting all the books
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const { search } = req.query;
+    const search = req.query.search as string;
     let query = {};
     if (search) {
       query = {

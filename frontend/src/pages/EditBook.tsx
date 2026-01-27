@@ -115,7 +115,7 @@ const EditBook = () => {
                   disabled={submitting}
                   className={`inline-flex items-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${submitting ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-(--gold-primary) text-(--text-inverted)`}
                 >
-                  {submitting ? <Spinner /> : "Submit"}
+                  {submitting ? "Editing" : "Submit"}
                 </button>
               </div>
             </div>

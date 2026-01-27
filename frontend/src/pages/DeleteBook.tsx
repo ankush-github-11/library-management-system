@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
 
@@ -42,7 +41,7 @@ const DeleteBook = () => {
               disabled={loading}
               aria-label="confirm-delete"
             >
-              {loading ? <Spinner /> : "Yes, delete"}
+              {loading ? "Deleting" : "Yes, delete"}
             </button>
           </div>
         </div>

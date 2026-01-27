@@ -27,24 +27,29 @@ const Home: React.FC = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
+  const fetchBooks = async (query: string) => {
+    try {
+      setLoading(true);
+      const res = await axios.get<{ data: Book[] }>(
+        `http://localhost:3000/books?search=${encodeURIComponent(query)}`,
+      );
+      setBooks(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get<{ data: Book[] }>(
-        `http://localhost:3000/books?search=${debouncedSearch}`,
-      )
-      .then((res) => {
-        setBooks(res.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+    fetchBooks(debouncedSearch);
   }, [debouncedSearch]);
   useEffect(() => {
     const handleBookAdded = (newBook: Book) => {
       if (!search) {
         setBooks((prev) => [...prev, newBook]);
+      } else {
+        fetchBooks(search);
       }
     };
 
@@ -55,12 +60,16 @@ const Home: React.FC = () => {
             book._id === updatedBook._id ? updatedBook : book,
           ),
         );
+      } else {
+        fetchBooks(search);
       }
     };
 
     const handleBookDeleted = (id: string) => {
       if (!search) {
         setBooks((prev) => prev.filter((book) => book._id !== id));
+      } else {
+        fetchBooks(search);
       }
     };
 
@@ -76,7 +85,7 @@ const Home: React.FC = () => {
   return (
     <div className="bg-(--bg-main) px-4 sm:px-8 py-8 min-h-screen w-full text-(--text-primary)">
       <div className="max-w-7xl mx-auto">
-        <div className="w-full mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="w-full mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div className="h-fit">
             <h1 className="text-5xl font-bold bg-linear-to-r from-(--gold-soft) to-(--gold-muted) bg-clip-text text-transparent py-2">
               Library Dashboard
@@ -85,7 +94,7 @@ const Home: React.FC = () => {
               Manage your books collection with elegance
             </p>
           </div>
-          <div>
+          <div className="w-full sm:w-auto">
             <input
               type="text"
               placeholder="Search by title or author..."
@@ -95,7 +104,7 @@ const Home: React.FC = () => {
                 setSearch(e.target.value);
               }}
               className="
-              w-full sm:w-96
+              w-full sm:w-80
               px-4 py-2
               rounded-xl
               bg-(--bg-elevated)
@@ -236,7 +245,16 @@ const Home: React.FC = () => {
         )}
 
         {!loading && books.length === 0 && (
-          <div className="mt-6 text-(--text-secondary) text-center">No Books Found</div>
+          <div className="mt-12 text-center">
+            <p className="text-lg font-medium text-(--text-secondary)">
+              No matching books found
+            </p>
+            {search && (
+              <p className="text-sm text-(--text-muted) mt-1">
+                Try a different title or author
+              </p>
+            )}
+          </div>
         )}
       </div>
     </div>

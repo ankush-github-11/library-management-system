@@ -4,7 +4,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 
-
 interface Book {
   _id: string;
   title: string;

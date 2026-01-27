@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
 
@@ -96,7 +95,7 @@ const CreateBook = () => {
               onClick={handleChange}
               disabled={loading}
             >
-              {loading ? <Spinner /> : "Create"}
+              {loading ? "Creating" : "Create"}
             </button>
           </div>
         </div>
