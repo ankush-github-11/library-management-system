@@ -15,10 +15,23 @@ interface Book {
 }
 const Home: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
   useEffect(() => {
     axios
-      .get<{ data: Book[] }>("http://localhost:3000/books")
+      .get<{ data: Book[] }>(
+        `http://localhost:3000/books?search=${debouncedSearch}`,
+      )
       .then((res) => {
         setBooks(res.data.data);
         setLoading(false);
@@ -27,20 +40,28 @@ const Home: React.FC = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [debouncedSearch]);
   useEffect(() => {
     const handleBookAdded = (newBook: Book) => {
-      setBooks((prev) => [...prev, newBook]);
+      if (!search) {
+        setBooks((prev) => [...prev, newBook]);
+      }
     };
 
     const handleBookEdited = (updatedBook: Book) => {
-      setBooks((prev) =>
-        prev.map((book) => (book._id === updatedBook._id ? updatedBook : book)),
-      );
+      if (!search) {
+        setBooks((prev) =>
+          prev.map((book) =>
+            book._id === updatedBook._id ? updatedBook : book,
+          ),
+        );
+      }
     };
-    
+
     const handleBookDeleted = (id: string) => {
-      setBooks((prev) => prev.filter((book) => book._id !== id));
+      if (!search) {
+        setBooks((prev) => prev.filter((book) => book._id !== id));
+      }
     };
 
     socket.on("book-added", handleBookAdded);
@@ -51,7 +72,7 @@ const Home: React.FC = () => {
       socket.off("book-edited", handleBookEdited);
       socket.off("book-deleted", handleBookDeleted);
     };
-  }, []);
+  }, [search]);
   return (
     <div className="bg-(--bg-main) px-4 sm:px-8 py-8 min-h-screen w-full text-(--text-primary)">
       <div className="max-w-7xl mx-auto">
@@ -64,8 +85,30 @@ const Home: React.FC = () => {
               Manage your books collection with elegance
             </p>
           </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Search by title or author..."
+              value={search}
+              onChange={(e) => {
+                setLoading(true);
+                setSearch(e.target.value);
+              }}
+              className="
+              w-full sm:w-96
+              px-4 py-2
+              rounded-xl
+              bg-(--bg-elevated)
+              outline-2 outline-(--border-gold)/20
+              text-(--text-secondary)
+              placeholder:text-(--text-muted)
+              focus:outline-2
+              focus:outline-(--border-gold)/80
+              "
+            />
+          </div>
           <Link
-            to={'/books/create'}
+            to={"/books/create"}
             className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-(--gold-primary) text-(--text-inverted) font-semibold shadow-(--shadow-gold) border border-(--border-gold) hover:brightness-95 transition-(--transition-normal)"
           >
             <span className="text-sm sm:text-base">+ Create a Book</span>
@@ -83,11 +126,21 @@ const Home: React.FC = () => {
             <div className="w-full rounded-lg shadow-(--shadow-soft) overflow-hidden border border-(--border-default) bg-(--bg-elevated)">
               {/* Header row - hidden on small screens */}
               <div className="hidden md:grid grid-cols-[0.5fr_3fr_2fr_1fr_1.5fr] bg-(--bg-card) border-b border-(--border-default)">
-                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">No.</div>
-                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">Title</div>
-                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">Author</div>
-                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">Pages</div>
-                <div className="px-4 py-3 font-semibold text-(--text-secondary) flex justify-center">Actions</div>
+                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">
+                  No.
+                </div>
+                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">
+                  Title
+                </div>
+                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">
+                  Author
+                </div>
+                <div className="px-4 py-3 border-r border-(--border-default) font-semibold text-(--text-secondary)">
+                  Pages
+                </div>
+                <div className="px-4 py-3 font-semibold text-(--text-secondary) flex justify-center">
+                  Actions
+                </div>
               </div>
 
               <div className="h-fit divide-y divide-(--border-default)">
@@ -102,15 +155,21 @@ const Home: React.FC = () => {
                         {book.title}
                       </h2>
                       <p className="text-sm text-(--text-secondary)">
-                        Author: <span className="text-(--text-primary)">{book.author}</span>
+                        Author:{" "}
+                        <span className="text-(--text-primary)">
+                          {book.author}
+                        </span>
                       </p>
                       <p className="text-sm text-(--text-secondary)">
-                        Pages: <span className="text-(--text-primary)">{book.pages}</span>
+                        Pages:{" "}
+                        <span className="text-(--text-primary)">
+                          {book.pages}
+                        </span>
                       </p>
                       <div className="flex gap-4 pt-2">
                         <Link
                           to={`/books/details/${book._id}`}
-                          className="text-sm font-medium text-(--info) over:underline"
+                          className="text-sm font-medium text-(--info) hover:underline"
                         >
                           Details
                         </Link>
@@ -122,7 +181,7 @@ const Home: React.FC = () => {
                         </Link>
                         <Link
                           to={`/books/delete/${book._id}`}
-                          className="text-sm font-medium text-(--error) over:underline"
+                          className="text-sm font-medium text-(--error) hover:underline"
                         >
                           Delete
                         </Link>
@@ -157,7 +216,10 @@ const Home: React.FC = () => {
                         to={`/books/edit/${book._id}`}
                         className="h-10 w-10 bg-(--bg-elevated) rounded-md flex justify-center items-center border-2 border-(--border-default) hover:scale-110 hover:border-2 hover:border-(--border-default) transition-(--transition-fast)"
                       >
-                        <FaEdit size={18} className="text-(--gold-primary) ml-0.5" />
+                        <FaEdit
+                          size={18}
+                          className="text-(--gold-primary) ml-0.5"
+                        />
                       </Link>
                       <Link
                         to={`/books/delete/${book._id}`}
@@ -174,7 +236,7 @@ const Home: React.FC = () => {
         )}
 
         {!loading && books.length === 0 && (
-          <div className="mt-6 text-(--text-secondary)">No Books Found</div>
+          <div className="mt-6 text-(--text-secondary) text-center">No Books Found</div>
         )}
       </div>
     </div>

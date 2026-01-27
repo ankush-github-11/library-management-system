@@ -4,9 +4,19 @@ import Book from "../models/bookModel";
 import mongoose from "mongoose";
 
 // Getting all the books
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
-    const books = await Book.find({});
+    const { search } = req.query;
+    let query = {};
+    if (search) {
+      query = {
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { author: { $regex: search, $options: "i" } }
+        ]
+      };
+    }
+    const books = await Book.find(query);
     res.status(200).send({
       count: books.length,
       data: books
