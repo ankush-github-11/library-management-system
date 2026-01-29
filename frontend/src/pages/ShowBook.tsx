@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import { socket } from "../socket";
 
 interface Book {
   _id: string;
@@ -16,6 +17,7 @@ const ShowBook = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get<Book>(`http://localhost:3000/books/${id}`)
@@ -28,6 +30,16 @@ const ShowBook = () => {
         setLoading(false);
       });
   }, [id]);
+  const handleBookEdited = (updatedBook: Book) =>{
+    if(updatedBook && updatedBook._id === id){
+      setBook(updatedBook);
+    }
+  };
+  const handleBookDeleted = () => {
+    navigate("/", { replace: true });
+  };
+  socket.on("book-edited", handleBookEdited);
+  socket.on("book-deleted", handleBookDeleted);
   return (
     <div className="bg-(--bg-main) min-h-screen p-6 sm:p-10 text-(--text-primary)">
       <div className="max-w-3xl mx-auto w-full">
@@ -35,7 +47,7 @@ const ShowBook = () => {
           <BackButton />
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-semibold mb-6">Book Detail</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold mb-6">Book Details</h1>
 
         {(!loading && !book) && (
           <div className="bg-(--bg-card) border border-(--border-default) rounded-xl p-6 text-(--text-secondary)">

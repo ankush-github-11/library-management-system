@@ -36,11 +36,15 @@ const EditBook = () => {
       });
   }, [id]);
   const handleBookEdited = (updatedBook: Book) => {
-    if(updatedBook && updatedBook._id === id) {
+    if (updatedBook && updatedBook._id === id) {
       setBook(updatedBook);
     }
-  }
+  };
+  const handleBookDeleted = () => {
+    navigate("/", { replace: true });
+  };
   socket.on("book-edited", handleBookEdited);
+  socket.on("book-deleted", handleBookDeleted);
   const handleSubmit = () => {
     if (!book.title || !book.author || !book.pages) {
       alert("No fields should be blank");
@@ -54,11 +58,11 @@ const EditBook = () => {
     axios
       .put(`http://localhost:3000/books/${id}`, book)
       .then(() => {
-        enqueueSnackbar("Book is edited successfully", {variant: "success"});
+        enqueueSnackbar("Book is edited successfully", { variant: "success" });
         navigate("/", { replace: true });
       })
       .catch(() => {
-        enqueueSnackbar("Something went wrong", {variant: "error"});
+        enqueueSnackbar("Something went wrong", { variant: "error" });
         setSubmitting(false);
       });
   };
@@ -70,9 +74,11 @@ const EditBook = () => {
         </div>
 
         <div className="bg-(--bg-card) border border-(--border-default) rounded-2xl p-6 sm:p-8 shadow-(--shadow-medium)">
-          <h1 className="text-2xl sm:text-3xl font-semibold mb-4">Edit the Book</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold mb-4">
+            Edit the Book
+          </h1>
 
-          {(!loading && !book) && (
+          {!loading && !book && (
             <div className="text-(--text-secondary)">Book not found</div>
           )}
 
@@ -84,7 +90,9 @@ const EditBook = () => {
 
           {!loading && book && (
             <div className="flex flex-col gap-4 mt-2">
-              <label className="text-sm text-(--text-secondary)">Book Title</label>
+              <label className="text-sm text-(--text-secondary)">
+                Book Title
+              </label>
               <input
                 type="text"
                 placeholder="Enter the title"
@@ -95,7 +103,9 @@ const EditBook = () => {
                 className="w-full h-12 px-4 bg-(--bg-elevated) border border-(--border-muted) rounded-lg text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
               />
 
-              <label className="text-sm text-(--text-secondary)">Book Author</label>
+              <label className="text-sm text-(--text-secondary)">
+                Book Author
+              </label>
               <input
                 type="text"
                 placeholder="Enter the author"
