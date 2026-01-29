@@ -108,7 +108,7 @@ const Home: React.FC = () => {
               px-4 py-2
               rounded-xl
               bg-(--bg-elevated)
-              outline-2 outline-(--border-gold)/20
+              outline-2 outline-(--gold-soft)/60
               text-(--text-secondary)
               placeholder:text-(--text-muted)
               focus:outline-2
@@ -118,10 +118,51 @@ const Home: React.FC = () => {
             />
           </div>
           <Link
-            to={"/books/create"}
-            className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-(--gold-primary) text-(--text-inverted) font-semibold shadow-(--shadow-gold) border border-(--border-gold) hover:brightness-95 transition-(--transition-normal) select-none"
+            to="/books/create"
+            aria-label="Create a book"
+            className="group relative inline-flex h-10.5 w-35 items-center justify-center rounded-full
+           bg-[rgba(255,255,255,0.03)]
+           backdrop-blur-sm transform transition-all duration-300
+           hover:scale-105
+           shadow-[0_0_0_1.5px_var(--gold-soft),0_0_15px_color-mix(in_srgb,var(--gold-soft)_25%,transparent),0_0_30px_color-mix(in_srgb,var(--gold-soft)_20%,transparent)]
+           focus:outline-none focus-visible:ring-2
+           focus-visible:ring-[var(--gold-soft)/20]
+           overflow-hidden"
           >
-            <span className="text-sm sm:text-base">+ Create a Book</span>
+            {/* soft gold halo (appears on hover) */}
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 -z-10 rounded-2xl opacity-0 transition-opacity duration-400 group-hover:opacity-80
+               bg-linear-to-r from-(--gold-soft) via-transparent to-(--gold-soft)
+               blur-2xl"
+            />
+
+            {/* thin beveled highlight at top-left */}
+            <span
+              aria-hidden="true"
+              className="absolute top-0 left-0 -z-5 h-8/40 w-7/10 rounded-tl-2xl rounded-br-2xl
+              bg-linear-to-r from-(--gold-soft) to-transparent opacity-70 pointer-events-none blur-[5px]"
+            />
+
+            {/* thin beveled highlight at bottom-right */}
+            <span
+              aria-hidden="true"
+              className="absolute bottom-0 right-0 -z-5 h-8/40 w-7/10 rounded-tl-2xl rounded-br-2xl
+               bg-linear-to-r from-transparent to-(--gold-soft) opacity-70 pointer-events-none blur-[5px]"
+            />
+
+            {/* subtle animated sheen that sweeps on hover */}
+            <span
+              aria-hidden="true"
+              className="absolute left-[-80%] top-0 -z-10 h-full w-[70%] transform-gpu
+               bg-linear-to-r from-transparent via-(--gold-soft)/50 to-transparent blur-md
+               transition-transform duration-900 group-hover:translate-x-[260%]"
+            />
+
+            {/* content: icon + label */}
+            <span className="relative z-10 flex items-center gap-2 px-4 font-semibold tracking-wide text-(--gold-soft) select-none">
+              Add a Book
+            </span>
           </Link>
         </div>
 
