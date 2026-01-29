@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
+import { socket } from "../socket";
 
 const DeleteBook = () => {
   const navigate = useNavigate();
@@ -22,6 +23,10 @@ const DeleteBook = () => {
         setLoading(false);
       });
   };
+  const handleBookDeleted = () => {
+    navigate("/", { replace: true });
+  };
+  socket.on("book-deleted", handleBookDeleted);
 
   return (
     <div className="bg-(--bg-main) min-h-screen p-6 sm:p-10 text-(--text-primary) flex items-center">
