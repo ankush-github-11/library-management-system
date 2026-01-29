@@ -120,7 +120,7 @@ const Home: React.FC = () => {
           <Link
             to="/books/create"
             aria-label="Create a book"
-            className="group relative inline-flex h-10.5 w-35 items-center justify-center rounded-full
+            className="group relative inline-flex h-10.5 w-38 items-center justify-center rounded-full
            bg-[rgba(255,255,255,0.03)]
            backdrop-blur-sm transform transition-all duration-300
            hover:scale-105
@@ -161,7 +161,7 @@ const Home: React.FC = () => {
 
             {/* content: icon + label */}
             <span className="relative z-10 flex items-center gap-2 px-4 font-semibold tracking-wide text-(--gold-soft) select-none">
-              Add a Book
+              Create a Book
             </span>
           </Link>
         </div>

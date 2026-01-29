@@ -4,8 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
+import { socket } from "../socket";
 
 interface Book {
+  _id?: string;
   title: string;
   author: string;
   pages: string;
@@ -33,6 +35,12 @@ const EditBook = () => {
         setLoading(false);
       });
   }, [id]);
+  const handleBookEdited = (updatedBook: Book) => {
+    if(updatedBook && updatedBook._id === id) {
+      setBook(updatedBook);
+    }
+  }
+  socket.on("book-edited", handleBookEdited);
   const handleSubmit = () => {
     if (!book.title || !book.author || !book.pages) {
       alert("No fields should be blank");
