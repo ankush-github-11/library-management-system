@@ -92,7 +92,7 @@ const CreateBook = () => {
 
           <div className="flex justify-end mt-6">
             <button
-              className={`w-29 mt-2 inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${loading ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-linear-to-r from-(--gold-soft) to-(--gold-primary) text-(--text-inverted) cursor-pointer`}
+              className={`w-29 mt-2 inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${loading ? "opacity-60 cursor-not-allowed" : "hover:brightness-90"} bg-linear-to-r from-(--gold-soft) to-(--gold-primary) text-(--text-inverted) cursor-pointer`}
               onClick={handleChange}
               disabled={loading}
             >

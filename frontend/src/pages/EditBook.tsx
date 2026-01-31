@@ -131,7 +131,7 @@ const EditBook = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className={`w-29 inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${submitting ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-linear-to-r from-(--gold-soft) to-(--gold-primary) text-(--text-inverted) cursor-pointer`}
+                  className={`w-29 inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${submitting ? "opacity-60 cursor-not-allowed" : "hover:brightness-90"} bg-linear-to-r from-(--gold-soft) to-(--gold-primary) text-(--text-inverted) cursor-pointer`}
                 >
                   {submitting ? "Editing" : "Submit"}
                 </button>

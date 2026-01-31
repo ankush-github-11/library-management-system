@@ -46,7 +46,7 @@ const DeleteBook = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              className={`inline-flex items-center justify-center px-6 py-2 rounded-full font-semibold shadow-(--shadow-soft) border border-(--border-default) transition-(--transition-normal) ${loading ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-red-500 text-white cursor-pointer`}
+              className={`inline-flex items-center justify-center px-6 py-2 rounded-full font-semibold shadow-(--shadow-soft) border border-(--border-default) transition-(--transition-normal) ${loading ? "opacity-60 cursor-not-allowed" : "hover:brightness-90"} bg-red-500 text-white cursor-pointer`}
               onClick={handleDelete}
               disabled={loading}
               aria-label="confirm-delete"
