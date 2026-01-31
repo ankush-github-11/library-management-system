@@ -13,7 +13,6 @@ const BackButton = () => {
         border-2 border-(--border-muted)
         text-(--text-primary)
         transition-all duration-200
-        hover:bg-(--accent-soft)
         hover:text-(--gold-primary)
         active:scale-95
       "
