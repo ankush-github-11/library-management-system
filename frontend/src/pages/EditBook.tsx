@@ -68,13 +68,13 @@ const EditBook = () => {
   };
   return (
     <div className="bg-(--bg-main) min-h-screen p-6 sm:p-10 text-(--text-primary) flex items-start">
-      <div className="max-w-3xl w-full mx-auto">
+      <div className="max-w-2xl w-full mx-auto">
         <div className="mb-4">
           <BackButton />
         </div>
 
-        <div className="bg-(--bg-card) border border-(--border-default) rounded-2xl p-6 sm:p-8 shadow-(--shadow-medium)">
-          <h1 className="text-2xl sm:text-3xl font-semibold mb-4">
+        <div className="bg-linear-to-br from-(--bg-card) to-(--gold-dark) border border-(--border-default) rounded-2xl p-6 sm:p-8 shadow-(--shadow-medium)">
+          <h1 className="text-2xl sm:text-3xl font-semibold mb-8">
             Edit the Book
           </h1>
 
@@ -100,7 +100,7 @@ const EditBook = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setBook({ ...book, title: e.target.value });
                 }}
-                className="w-full h-12 px-4 bg-(--bg-elevated) border border-(--border-muted) rounded-lg text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
+                className="w-full h-13 px-4 bg-(--bg-main) border border-(--border-muted) rounded-md text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
               />
 
               <label className="text-sm text-(--text-secondary)">
@@ -113,7 +113,7 @@ const EditBook = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setBook({ ...book, author: e.target.value });
                 }}
-                className="w-full h-12 px-4 bg-(--bg-elevated) border border-(--border-muted) rounded-lg text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
+                className="w-full h-13 px-4 bg-(--bg-main) border border-(--border-muted) rounded-md text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
               />
 
               <label className="text-sm text-(--text-secondary)">Pages</label>
@@ -124,14 +124,14 @@ const EditBook = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setBook({ ...book, pages: e.target.value });
                 }}
-                className="w-full h-12 px-4 bg-(--bg-elevated) border border-(--border-muted) rounded-lg text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
+                className="w-full h-13 px-4 bg-(--bg-main) border border-(--border-muted) rounded-md text-(--text-primary) placeholder:text-(--text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--gold-glow) transition-(--transition-normal)"
               />
 
               <div className="flex items-center justify-end gap-4 mt-2">
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className={`inline-flex items-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${submitting ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-(--gold-primary) text-(--text-inverted)`}
+                  className={`w-29 inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold shadow-(--shadow-gold) border border-(--border-gold) transition-(--transition-normal) ${submitting ? "opacity-60 cursor-not-allowed" : "hover:brightness-95"} bg-linear-to-r from-(--gold-soft) to-(--gold-primary) text-(--text-inverted) cursor-pointer`}
                 >
                   {submitting ? "Editing" : "Submit"}
                 </button>
