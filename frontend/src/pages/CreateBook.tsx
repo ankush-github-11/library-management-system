@@ -10,6 +10,7 @@ interface Book {
 }
 
 const CreateBook = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [book, setBook] = useState<Book>({
     title: "",
     author: "",
@@ -28,7 +29,7 @@ const CreateBook = () => {
     }
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/books/", {
+      await axios.post(`${API_BASE_URL}/books`, {
         ...book,
         pages: Number(book.pages),
       });

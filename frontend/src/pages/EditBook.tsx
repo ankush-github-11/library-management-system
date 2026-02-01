@@ -6,6 +6,8 @@ import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
 import { socket } from "../socket";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface Book {
   _id?: string;
   title: string;
@@ -25,7 +27,7 @@ const EditBook = () => {
   const { id } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/books/${id}`)
+      .get(`${API_BASE_URL}/books/${id}`)
       .then((res) => {
         setLoading(false);
         setBook(res.data);
@@ -56,7 +58,7 @@ const EditBook = () => {
     }
     setSubmitting(true);
     axios
-      .put(`http://localhost:3000/books/${id}`, book)
+      .put(`${API_BASE_URL}/books/${id}`, book)
       .then(() => {
         enqueueSnackbar("Book is edited successfully", { variant: "success" });
         navigate("/", { replace: true });

@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { socket } from "../socket";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface Book {
   _id: string;
   title: string;
@@ -20,7 +22,7 @@ const ShowBook = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get<Book>(`http://localhost:3000/books/${id}`)
+      .get<Book>(`${API_BASE_URL}/books/${id}`)
       .then((res) => {
         setBook(res.data);
         setLoading(false);

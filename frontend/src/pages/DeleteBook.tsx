@@ -5,6 +5,8 @@ import BackButton from "../components/BackButton";
 import { useSnackbar } from "notistack";
 import { socket } from "../socket";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const DeleteBook = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -13,7 +15,7 @@ const DeleteBook = () => {
   const handleDelete = async () => {
     setLoading(true);
     axios
-      .delete(`http://localhost:3000/books/${id}`)
+      .delete(`${API_BASE_URL}/books/${id}`)
       .then(() => {
         enqueueSnackbar("Book is deleted successfully", { variant: "success" });
         navigate("/", { replace: true });

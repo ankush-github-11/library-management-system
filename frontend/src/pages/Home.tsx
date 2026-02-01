@@ -7,6 +7,8 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { socket } from "../socket";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface Book {
   _id: string;
   title: string;
@@ -31,7 +33,7 @@ const Home: React.FC = () => {
     try {
       setLoading(true);
       const res = await axios.get<{ data: Book[] }>(
-        `http://localhost:3000/books?search=${encodeURIComponent(query)}`,
+        `${API_BASE_URL}/books?search=${encodeURIComponent(query)}`,
       );
       setBooks(res.data.data);
     } catch (error) {
