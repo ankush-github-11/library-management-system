@@ -89,7 +89,7 @@ const Home: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="w-full mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div className="h-fit">
-            <h1 className="text-5xl font-bold bg-linear-to-r from-(--gold-soft) to-(--gold-muted) bg-clip-text text-transparent py-2">
+            <h1 className="text-5xl font-bold bg-(--gold-soft)  bg-clip-text text-transparent py-2">
               Library Dashboard
             </h1>
             <p className="text-(--text-secondary) text-base">
@@ -122,7 +122,7 @@ const Home: React.FC = () => {
           <Link
             to="/books/create"
             aria-label="Create a book"
-            className="group relative inline-flex h-10.5 w-38 items-center justify-center rounded-full
+            className="group relative inline-flex mt-2 lg:mt-0 h-10.5 w-38 items-center justify-center rounded-full
            bg-[rgba(255,255,255,0.03)]
            backdrop-blur-sm transform transition-all duration-300
            hover:scale-105
@@ -219,22 +219,22 @@ const Home: React.FC = () => {
                           {book.pages}
                         </span>
                       </p>
-                      <div className="flex gap-4 pt-2">
+                      <div className="flex gap-3 pt-2">
                         <Link
                           to={`/books/details/${book._id}`}
-                          className="text-sm font-medium text-(--info) hover:underline"
+                          className="flex justify-center border border-gray-500/20 rounded-sm py-1.5 w-17 text-sm font-medium text-(--info) hover:underline"
                         >
                           Details
                         </Link>
                         <Link
                           to={`/books/edit/${book._id}`}
-                          className="text-sm font-medium text-(--gold-primary) hover:underline"
+                          className="flex justify-center border border-gray-500/20 rounded-sm py-1.5 w-13.5 text-sm font-medium text-(--gold-primary) hover:underline"
                         >
                           Edit
                         </Link>
                         <Link
                           to={`/books/delete/${book._id}`}
-                          className="text-sm font-medium text-(--error) hover:underline"
+                          className="flex justify-center border border-gray-500/20 rounded-sm py-1.5 w-17 text-sm font-medium text-(--error) hover:underline"
                         >
                           Delete
                         </Link>
