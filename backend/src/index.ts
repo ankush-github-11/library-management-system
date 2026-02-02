@@ -32,7 +32,7 @@ app.use(
 app.use("/books", bookRoute);
 
 app.get("/", (_req: Request, res: Response) => {
-  res.send("Backend is running 🚀");
+  res.send("Backend is running");
 });
 
 // ---------- Socket.IO ----------
@@ -56,21 +56,22 @@ io.on("connection", (socket) => {
 
 app.set("io", io);
 
-// ---------- Start Server FIRST ----------
-server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
-
-// ---------- Connect MongoDB ----------
+// ---------- Connect DB FIRST, then start server ----------
 if (!MONGO_URI) {
   console.error("MONGO_URI is missing");
-} else {
-  mongoose
-    .connect(MONGO_URI)
-    .then(() => {
-      console.log("MongoDB connected");
-    })
-    .catch((err) => {
-      console.error("MongoDB connection error:", err.message);
-    });
+  process.exit(1);
 }
+
+mongoose
+  .connect(MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+
+    server.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });

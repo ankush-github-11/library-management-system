@@ -291,7 +291,7 @@ const Home: React.FC = () => {
         {!loading && books.length === 0 && (
           <div className="mt-12 text-center">
             <p className="text-lg font-medium text-(--text-secondary)">
-              No matching books found
+              No books found
             </p>
             {search && (
               <p className="text-sm text-(--text-muted) mt-1">
