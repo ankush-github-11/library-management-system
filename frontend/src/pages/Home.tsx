@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { FaList } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { socket } from "../socket";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { getBooks } from "../api/book.api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Book {
   _id: string;
@@ -16,74 +15,34 @@ interface Book {
   pages: number;
 }
 const Home: React.FC = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
-
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
-    }, 600);
-
+    }, 400);
     return () => clearTimeout(timer);
   }, [search]);
-
-  const fetchBooks = async (query: string) => {
-    try {
-      setLoading(true);
-      const res = await axios.get<{ data: Book[] }>(
-        `${API_BASE_URL}/books?search=${encodeURIComponent(query)}`,
-      );
-      setBooks(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const queryClient = useQueryClient();
+  const {data: books = [], isLoading} = useQuery<Book[]>({
+    queryKey: ['books', debouncedSearch],
+    queryFn: () => getBooks(debouncedSearch),
+    enabled: true,
+  });
   useEffect(() => {
-    fetchBooks(debouncedSearch);
-  }, [debouncedSearch]);
-  useEffect(() => {
-    const handleBookAdded = (newBook: Book) => {
-      if (!search) {
-        setBooks((prev) => [...prev, newBook]);
-      } else {
-        fetchBooks(search);
-      }
+    const invalidate = () =>{
+      queryClient.invalidateQueries({queryKey: ['books']});
     };
 
-    const handleBookEdited = (updatedBook: Book) => {
-      if (!search) {
-        setBooks((prev) =>
-          prev.map((book) =>
-            book._id === updatedBook._id ? updatedBook : book,
-          ),
-        );
-      } else {
-        fetchBooks(search);
-      }
-    };
-
-    const handleBookDeleted = (id: string) => {
-      if (!search) {
-        setBooks((prev) => prev.filter((book) => book._id !== id));
-      } else {
-        fetchBooks(search);
-      }
-    };
-
-    socket.on("book-added", handleBookAdded);
-    socket.on("book-edited", handleBookEdited);
-    socket.on("book-deleted", handleBookDeleted);
+    socket.on("book-added", invalidate);
+    socket.on("book-edited", invalidate);
+    socket.on("book-deleted", invalidate);
     return () => {
-      socket.off("book-added", handleBookAdded);
-      socket.off("book-edited", handleBookEdited);
-      socket.off("book-deleted", handleBookDeleted);
+      socket.off("book-added", invalidate);
+      socket.off("book-edited", invalidate);
+      socket.off("book-deleted", invalidate);
     };
-  }, [search]);
+  }, [queryClient]);
   return (
     <div className="bg-(--bg-main) px-4 sm:px-8 py-8 min-h-screen w-full text-(--text-primary)">
       <div className="max-w-7xl mx-auto">
@@ -102,7 +61,6 @@ const Home: React.FC = () => {
               placeholder="Search by title or author..."
               value={search}
               onChange={(e) => {
-                setLoading(true);
                 setSearch(e.target.value);
               }}
               className="
@@ -168,13 +126,13 @@ const Home: React.FC = () => {
           </Link>
         </div>
 
-        {loading && (
+        {isLoading && (
           <div className="flex justify-center items-center h-40 w-full">
             <Spinner />
           </div>
         )}
 
-        {!loading && books.length > 0 && (
+        {!isLoading && books.length > 0 && (
           <div>
             <div className="w-full rounded-lg shadow-(--shadow-soft) overflow-hidden border border-(--border-default) bg-(--bg-elevated)">
               {/* Header row - hidden on small screens */}
@@ -288,7 +246,7 @@ const Home: React.FC = () => {
           </div>
         )}
 
-        {!loading && books.length === 0 && (
+        {!isLoading && books.length === 0 && (
           <div className="mt-12 text-center">
             <p className="text-lg font-medium text-(--text-secondary)">
               No books found
